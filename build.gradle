@@ -1,0 +1,36 @@
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
+}
+
+group 'org.veiset'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "com.badlogicgames.gdx:gdx:1.9.10"
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.10"
+    compile "com.badlogicgames.gdx:gdx-platform:1.9.10:natives-desktop"
+    compile "io.github.libktx:ktx-app:1.9.10-b2"
+    compile "io.github.libktx:ktx-graphics:1.9.10-b2"
+    compile "com.badlogicgames.gdx:gdx-box2d:1.9.10"
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.xomute.PerlinNoiseKt'
+    }
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
