@@ -25,7 +25,6 @@ import kotlin.math.*
 val WIDTH = LwjglApplicationConfiguration.getDesktopDisplayMode().width
 val HEIGHT = LwjglApplicationConfiguration.getDesktopDisplayMode().height
 const val scl = 20f
-val HSV = mutableListOf<Color>()
 
 fun main() {
     val config = LwjglApplicationConfiguration().apply {
@@ -98,8 +97,6 @@ class PerlinNoise : KtxGame<KtxScreen>() {
             )
         }
 
-        hashHSV()
-
 //        clearScreen(1f, 1f, 1f, 1f)
         clearScreen(0f, 0f, 0f, 1f)
     }
@@ -171,37 +168,5 @@ class PerlinNoise : KtxGame<KtxScreen>() {
         BufferUtils.copy(pixels, 0, pixmap.pixels, pixels.size)
         PixmapIO.writePNG(FileHandle("mypixmap${(Math.random() * 10000).toInt()}.png"), pixmap)
         pixmap.dispose()
-    }
-
-    private fun hashHSV() {
-        for (i in 0 until 360) {
-            val h = i
-            var tempC = 1
-            var tempX = tempC * (1 - abs((h / 60) % 2 - 1))
-            var r = 0f
-            var g = 0f
-            var b = 0f
-            when {
-                h < 60 -> {
-                    r = tempC.toFloat(); g = tempX.toFloat()
-                }
-                h < 120 -> {
-                    r = tempX.toFloat(); g = tempC.toFloat()
-                }
-                h < 180 -> {
-                    g = tempC.toFloat(); b = tempX.toFloat()
-                }
-                h < 240 -> {
-                    g = tempX.toFloat(); b = tempC.toFloat()
-                }
-                h < 300 -> {
-                    r = tempX.toFloat(); b = tempC.toFloat()
-                }
-                h < 360 -> {
-                    r = tempC.toFloat(); b = tempX.toFloat()
-                }
-            }
-            HSV.add(color(r, g, b, .1f))
-        }
     }
 }
